@@ -6,7 +6,7 @@
 /*   By: odib <odib@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 14:14:11 by odib              #+#    #+#             */
-/*   Updated: 2024/06/20 14:29:56 by odib             ###   ########.fr       */
+/*   Updated: 2024/07/20 16:10:58 by odib             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 
 typedef struct s_list
 {
-	void			*content;
+	char			*content;
 	struct s_list	*next;
 }	t_list;
 
