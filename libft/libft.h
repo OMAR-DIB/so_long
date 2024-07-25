@@ -6,18 +6,24 @@
 /*   By: odib <odib@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 14:14:11 by odib              #+#    #+#             */
-/*   Updated: 2024/07/20 16:10:58 by odib             ###   ########.fr       */
+/*   Updated: 2024/07/25 11:48:45 by odib             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1000
+# endif
+# define MAX_FD 10240
+
 # include <unistd.h>
 # include <stdlib.h>
 # include <stddef.h>
 # include <string.h>
 # include <stdint.h>
+# include <stdio.h>
 
 void	ft_bzero(void *s, size_t n);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
@@ -41,6 +47,7 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char	*ft_strtrim(char const *s1, char const *set);
 char	**ft_split(char const *s, char c);
 char	*ft_itoa(int n);
+char	*ft_strstr(char *haystack, char *needle);
 
 int		ft_isalnum(int c);
 int		ft_isalpha(int c);
@@ -52,6 +59,10 @@ int		ft_tolower(int c);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_atoi(const char *nptr);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
+char	*ft_strjoingnl(char *buffer, const char *content);
+char	*get_substr(char *buffer);
+char	*get_lines(char *buffer);
+char	*ft_get_next_line(int fd);
 
 size_t	ft_strlen(const char *s);
 size_t	ft_strlcat(char *dst, const char *src, size_t size);
