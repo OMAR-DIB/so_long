@@ -6,7 +6,7 @@
 /*   By: odib <odib@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 11:58:40 by odib              #+#    #+#             */
-/*   Updated: 2024/07/25 12:48:15 by odib             ###   ########.fr       */
+/*   Updated: 2024/07/25 16:49:31 by odib             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	is_rectangular(void)
 	i = 0;
 	while (i < g_var.map.size.height)
 	{
-		if (ft_strlen(g_var.map.data[i] != g_var.map.size.width))
+		if ((int)ft_strlen(g_var.map.data[i]) != g_var.map.size.width)
 		{
 			ft_printf("not rectangular");
 			exit(1);
@@ -61,7 +61,7 @@ int	is_valid(char c)
 	return (c == 'E' || c == 'P' || c == 'C' || c == '1' || c == '0');
 }
 
-void	contains_one_exit(t_var var)
+void	contains_one_exit(void)
 {
 	int	exit_count;
 	int	start_count;
@@ -71,14 +71,14 @@ void	contains_one_exit(t_var var)
 	start_count = 0;
 	exit_count = 0;
 	i = 0;
-	while (i < var.map.size.height)
+	while (i < g_var.map.size.height)
 	{
 		j = 0;
-		while (j < var.map.size.width)
+		while (j < g_var.map.size.width)
 		{
-			if (var.map.data[i][j] == 'E')
+			if (g_var.map.data[i][j] == 'E')
 				exit_count++;
-			if (var.map.data[i][j] == 'P')
+			if (g_var.map.data[i][j] == 'P')
 				start_count++;
 			j++;
 		}
@@ -91,12 +91,13 @@ void	contains_one_exit(t_var var)
 	}
 }
 
-int	collectibale_validation(void)
+void	collectibale_validation(void)
 {
 	int	i;
 	int	j;
 	int	collect;
 
+	collect = 0;
 	i = 0;
 	while (i < g_var.map.size.height)
 	{
@@ -119,4 +120,15 @@ int	collectibale_validation(void)
 		ft_printf("NO collectible");
 		exit(1);
 	}
+	g_var.game.count_collec = collect;
 }
+
+void	check_map(void)
+{
+	walls_valide();
+	is_rectangular();
+	collectibale_validation();
+	contains_one_exit();
+	has_valid_path();
+}
+

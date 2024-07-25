@@ -6,7 +6,7 @@
 /*   By: odib <odib@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 18:43:01 by odib              #+#    #+#             */
-/*   Updated: 2024/07/25 11:59:05 by odib             ###   ########.fr       */
+/*   Updated: 2024/07/25 16:52:59 by odib             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,11 @@
 # define KEY_S 115
 # define KEY_D 100
 # define KEY_ESC 65307
+# define SPRITE_H 64
+# define SPRITE_W 64
+# define X_EVENT_KEY_PRESS 2
+# define X_EVENT_KEY_EXIT 17
+
 typedef struct l_position
 {
 	int			width;
@@ -76,5 +81,32 @@ extern t_var	g_var;
 int		get_height(char *file_name);
 void	get_map(char **av);
 void	read_map(char *file_name);
+void	check_map(void);
+void	collectibale_validation(void);
+void	contains_one_exit(void);
+int		is_valid(char c);
+void	is_rectangular(void);
+void	walls_valide(void);
+void	dfs(char **data, t_position start, t_position size, int **visited);
+void	has_valid_path(void);
+void	free_visited(int **visited, t_position size);
+void	is_reachable(int **visited);
+t_position	start_position(void);
+void	free_visited(int **visited, t_position size);
+void	free_exit(char	*sms);
+void	free_map(void);
+int		mlx_close(void);
+void	init_position(void);
+void	load_map(int row, int col);
+int	draw_map(void);
+void	moves(int key);
+void	move_left(void);
+void	move_right(void);
+void	move_up(void);
+void	move_down(void);
+void	check_collect(void);
+void	print_steps(void);
+int	key_press(int key);
+int	count_collec();
 
 #endif

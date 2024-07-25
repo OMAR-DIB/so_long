@@ -1,6 +1,6 @@
 NAME = so_long
 
-SRC = src/so_long.c get_next_line/get_next_line.c get_next_line/get_next_line_utils.c src/map_validation.c src/utils.c
+SRC = src/so_long.c get_next_line/get_next_line.c get_next_line/get_next_line_utils.c src/map_validation.c src/game.c src/map_validation2.c src/free.c src/moves.c src/dfs.c src/utils.c
 OBJ := $(SRC:%.c=%.o)
 
 CC = gcc

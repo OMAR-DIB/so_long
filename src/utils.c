@@ -6,7 +6,7 @@
 /*   By: odib <odib@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 18:43:01 by odib              #+#    #+#             */
-/*   Updated: 2024/07/25 12:44:11 by odib             ###   ########.fr       */
+/*   Updated: 2024/07/25 16:34:20 by odib             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	read_map(char *file_name)
 	if (fd == -1)
 	{
 		ft_printf("Error opening file\n");
-		return (0);
+		exit(1);
 	}
 	lines = get_next_line(fd);
 	while (lines != NULL)
@@ -86,4 +86,45 @@ void	get_map(char **av)
 		exit(1);
 	}
 	read_map(av[1]);
+}
+
+void	load_map(int row, int col)
+{
+	if (g_var.map.data[row][col] == '1')
+		g_var.img.img_ptr = mlx_xpm_file_to_image(g_var.mlx, "./img/wall.xpm",
+				&g_var.img.size.width, &g_var.img.size.height);
+	else if (g_var.map.data[row][col] == '0')
+		g_var.img.img_ptr = mlx_xpm_file_to_image(g_var.mlx, "./img/floor.xpm",
+				&g_var.img.size.width, &g_var.img.size.height);
+	else if (g_var.map.data[row][col] == 'E')
+		g_var.img.img_ptr = mlx_xpm_file_to_image(g_var.mlx, "./img/exit.xpm",
+				&g_var.img.size.width, &g_var.img.size.height);
+	else if (g_var.map.data[row][col] == 'C')
+		g_var.img.img_ptr = mlx_xpm_file_to_image(g_var.mlx, "./img/drgn_ball.xpm",
+				&g_var.img.size.width, &g_var.img.size.height);
+	else if (g_var.map.data[row][col] == 'P')
+		g_var.img.img_ptr = mlx_xpm_file_to_image(g_var.mlx, g_var.img.spt_path,
+				&g_var.img.size.width, &g_var.img.size.height);
+	mlx_put_image_to_window(g_var.mlx, g_var.win, g_var.img.img_ptr, SPRITE_W * col,
+		SPRITE_H * row);
+	mlx_destroy_image(g_var.mlx, g_var.img.img_ptr);
+}
+
+int	draw_map(void)
+{
+	int	row;
+	int	col;
+
+	row = 0;
+	while (row < g_var.map.size.height)
+	{
+		col = 0;
+		while (col < g_var.map.size.width)
+		{
+			load_map(row, col);
+			col++;
+		}
+		row++;
+	}
+	return (0);
 }
