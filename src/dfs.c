@@ -6,7 +6,7 @@
 /*   By: odib <odib@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 13:54:11 by odib              #+#    #+#             */
-/*   Updated: 2024/07/25 14:15:05 by odib             ###   ########.fr       */
+/*   Updated: 2024/07/30 17:28:12 by odib             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,3 @@ void	dfs(char **data, t_position start, t_position size, int **visited)
 	dfs(data, next_positions[2], size, visited);
 	dfs(data, next_positions[3], size, visited);
 }
-

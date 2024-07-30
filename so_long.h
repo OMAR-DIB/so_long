@@ -6,7 +6,7 @@
 /*   By: odib <odib@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 18:43:01 by odib              #+#    #+#             */
-/*   Updated: 2024/07/25 16:52:59 by odib             ###   ########.fr       */
+/*   Updated: 2024/07/30 17:35:14 by odib             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ typedef struct l_img
 	t_position	size;
 	t_position	pos;
 	int			size_line;
-	//int			bpp;
+	// int			bpp;
 	void		*data;
 }				t_imgg;
 
@@ -76,37 +76,40 @@ typedef struct s_var
 	t_imgg		img;
 }				t_var;
 
-extern t_var	g_var;
+extern t_var	g_vr;
 
-int		get_height(char *file_name);
-void	get_map(char **av);
-void	read_map(char *file_name);
-void	check_map(void);
-void	collectibale_validation(void);
-void	contains_one_exit(void);
-int		is_valid(char c);
-void	is_rectangular(void);
-void	walls_valide(void);
-void	dfs(char **data, t_position start, t_position size, int **visited);
-void	has_valid_path(void);
-void	free_visited(int **visited, t_position size);
-void	is_reachable(int **visited);
-t_position	start_position(void);
-void	free_visited(int **visited, t_position size);
-void	free_exit(char	*sms);
-void	free_map(void);
-int		mlx_close(void);
-void	init_position(void);
-void	load_map(int row, int col);
-int	draw_map(void);
-void	moves(int key);
-void	move_left(void);
-void	move_right(void);
-void	move_up(void);
-void	move_down(void);
-void	check_collect(void);
-void	print_steps(void);
-int	key_press(int key);
-int	count_collec();
+t_position		start_position(void);
 
+void			collectibale_validation(void);
+void			read_map(char *file_name);
+void			contains_one_exit(void);
+void			get_map(char **av);
+void			check_map(void);
+
+void			dfs(char **data, t_position start, t_position size,
+					int **visited);
+void			free_visited(int **visited, t_position size);
+void			check_arg(int ac, char **av);
+void			is_reachable(int **visited);
+void			load_map(int row, int col);
+void			has_valid_path(void);
+void			is_rectangular(void);
+void			free_map(char *str);
+void			init_position(void);
+void			check_collect(void);
+void			walls_valide(void);
+void			print_steps(void);
+void			initialize(void);
+void			move_right(void);
+void			move_left(void);
+void			move_down(void);
+void			moves(int key);
+void			move_up(void);
+
+int				get_height(char *file_name);
+int				key_press(int key);
+int				count_collec(void);
+int				is_valid(char c);
+int				mlx_close(void);
+int				draw_map(void);
 #endif

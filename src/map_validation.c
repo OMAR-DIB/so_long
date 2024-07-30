@@ -6,7 +6,7 @@
 /*   By: odib <odib@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 11:58:40 by odib              #+#    #+#             */
-/*   Updated: 2024/07/25 16:49:31 by odib             ###   ########.fr       */
+/*   Updated: 2024/07/30 17:36:03 by odib             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,24 +17,22 @@ void	walls_valide(void)
 	int	i;
 
 	i = 0;
-	while (i < g_var.map.size.width)
+	while (i < g_vr.map.size.width)
 	{
-		if (g_var.map.data[0][i] != '1' || g_var.map.data[g_var.map.size.height
+		if (g_vr.map.data[0][i] != '1' || g_vr.map.data[g_vr.map.size.height
 			- 1][i] != '1')
 		{
-			ft_printf("Invalide map\n");
-			exit(1);
+			free_map("Invalide map\n");
 		}
 		i++;
 	}
 	i = 0;
-	while (i < g_var.map.size.height)
+	while (i < g_vr.map.size.height)
 	{
-		if (g_var.map.data[i][0] != '1'
-			|| g_var.map.data[i][g_var.map.size.width - 1] != '1')
+		if (g_vr.map.data[i][0] != '1' || g_vr.map.data[i][g_vr.map.size.width
+			- 1] != '1')
 		{
-			ft_printf("Invalide map\n");
-			exit(1);
+			free_map("Invalide map\n");
 		}
 		i++;
 	}
@@ -45,12 +43,11 @@ void	is_rectangular(void)
 	int	i;
 
 	i = 0;
-	while (i < g_var.map.size.height)
+	while (i < g_vr.map.size.height)
 	{
-		if ((int)ft_strlen(g_var.map.data[i]) != g_var.map.size.width)
+		if ((int)ft_strlen(g_vr.map.data[i]) != g_vr.map.size.width)
 		{
-			ft_printf("not rectangular");
-			exit(1);
+			free_map("not rectangular");
 		}
 		i++;
 	}
@@ -71,24 +68,21 @@ void	contains_one_exit(void)
 	start_count = 0;
 	exit_count = 0;
 	i = 0;
-	while (i < g_var.map.size.height)
+	while (i < g_vr.map.size.height)
 	{
 		j = 0;
-		while (j < g_var.map.size.width)
+		while (j < g_vr.map.size.width)
 		{
-			if (g_var.map.data[i][j] == 'E')
+			if (g_vr.map.data[i][j] == 'E')
 				exit_count++;
-			if (g_var.map.data[i][j] == 'P')
+			if (g_vr.map.data[i][j] == 'P')
 				start_count++;
 			j++;
 		}
 		i++;
 	}
 	if (start_count != 1 || exit_count != 1)
-	{
-		ft_printf("error E or P");
-		exit(1);
-	}
+		free_map("error E or P");
 }
 
 void	collectibale_validation(void)
@@ -99,28 +93,22 @@ void	collectibale_validation(void)
 
 	collect = 0;
 	i = 0;
-	while (i < g_var.map.size.height)
+	while (i < g_vr.map.size.height)
 	{
 		j = 0;
-		while (j < g_var.map.size.width)
+		while (j < g_vr.map.size.width)
 		{
-			if (!is_valid(g_var.map.data[i][j]))
-			{
-				ft_printf("not valid char");
-				exit(1);
-			}
-			if (g_var.map.data[i][j] == 'C')
+			if (!is_valid(g_vr.map.data[i][j]))
+				free_map("not valid char");
+			if (g_vr.map.data[i][j] == 'C')
 				collect++;
 			j++;
 		}
 		i++;
 	}
 	if (collect == 0)
-	{
-		ft_printf("NO collectible");
-		exit(1);
-	}
-	g_var.game.count_collec = collect;
+		free_map("NO collectible");
+	g_vr.game.count_collec = collect;
 }
 
 void	check_map(void)
@@ -131,4 +119,3 @@ void	check_map(void)
 	contains_one_exit();
 	has_valid_path();
 }
-

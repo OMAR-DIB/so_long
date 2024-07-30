@@ -1,6 +1,6 @@
 NAME = so_long
 
-SRC = src/so_long.c get_next_line/get_next_line.c get_next_line/get_next_line_utils.c src/map_validation.c src/game.c src/map_validation2.c src/free.c src/moves.c src/dfs.c src/utils.c
+SRC = src/so_long.c get_next_line/get_next_line.c get_next_line/get_next_line_utils.c src/map_manipulation.c src/map_validation.c src/game.c src/map_validation2.c src/free.c src/moves.c src/dfs.c src/utils.c
 OBJ := $(SRC:%.c=%.o)
 
 CC = gcc
@@ -13,25 +13,25 @@ MLX = -lmlx -lXext -lX11 -lm
 all : libft ft_printf $(NAME)
 
 libft:
-	make -C libft
+	@make -C libft
 
 ft_printf:
-	make -C ft_printf
+	@make -C ft_printf
 
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(INCLUDES) $(OBJ) -o $(NAME) $(MLX) -Llibft -lft -Lft_printf -lftprintf -L./MinilibX
+	@$(CC) $(CFLAGS) $(INCLUDES) $(OBJ) -o $(NAME) $(MLX) -Llibft -lft -Lft_printf -lftprintf -L./MinilibX
 
 %.o: %.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
 	$(RM) $(OBJ)
-	make clean -C libft
-	make clean -C ft_printf
+	@make clean -C libft
+	@make clean -C ft_printf
 
 fclean: clean
 	$(RM) $(NAME)
-	make fclean -C libft
-	make fclean -C ft_printf
+	@make fclean -C libft
+	@make fclean -C ft_printf
 
 re: fclean all

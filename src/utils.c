@@ -6,7 +6,7 @@
 /*   By: odib <odib@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 18:43:01 by odib              #+#    #+#             */
-/*   Updated: 2024/07/25 16:34:20 by odib             ###   ########.fr       */
+/*   Updated: 2024/07/30 17:39:01 by odib             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	get_height(char *file_name)
 	if (fd == -1)
 	{
 		ft_printf("Error opening file\n");
-		return (0);
+		exit(1);
 	}
 	line = get_next_line(fd);
 	while (line != NULL)
@@ -38,93 +38,60 @@ int	get_height(char *file_name)
 	return (i);
 }
 
-// break statement on extra length
-void	read_map(char *file_name)
-{
-	int		fd;
-	char	*lines;
-	int		i;
-
-	fd = open(file_name, O_RDONLY);
-	if (fd == -1)
-	{
-		ft_printf("Error opening file\n");
-		exit(1);
-	}
-	lines = get_next_line(fd);
-	while (lines != NULL)
-	{
-		g_var.map.data[g_var.map.size.height] = lines;
-		i = ft_strlen(lines);
-		if (lines[i - 1] == '\n')
-		{
-			lines[i - 1] = '\0';
-			i--;
-		}
-		if (g_var.map.size.height == 0)
-			g_var.map.size.width = i;
-		g_var.map.size.height++;
-		lines = get_next_line(fd);
-	}
-	if (lines)
-		free(lines);
-	close(fd);
-}
-
-void	get_map(char **av)
-{
-	int	num_lines;
-
-	g_var.map.data = NULL;
-	g_var.map.size.height = 0;
-	g_var.map.size.width = 0;
-	num_lines = get_height(av[1]);
-	g_var.map.data = (char **)malloc(sizeof(char *) * num_lines);
-	if (!g_var.map.data)
-	{
-		ft_printf("Error allocation data\n");
-		exit(1);
-	}
-	read_map(av[1]);
-}
-
-void	load_map(int row, int col)
-{
-	if (g_var.map.data[row][col] == '1')
-		g_var.img.img_ptr = mlx_xpm_file_to_image(g_var.mlx, "./img/wall.xpm",
-				&g_var.img.size.width, &g_var.img.size.height);
-	else if (g_var.map.data[row][col] == '0')
-		g_var.img.img_ptr = mlx_xpm_file_to_image(g_var.mlx, "./img/floor.xpm",
-				&g_var.img.size.width, &g_var.img.size.height);
-	else if (g_var.map.data[row][col] == 'E')
-		g_var.img.img_ptr = mlx_xpm_file_to_image(g_var.mlx, "./img/exit.xpm",
-				&g_var.img.size.width, &g_var.img.size.height);
-	else if (g_var.map.data[row][col] == 'C')
-		g_var.img.img_ptr = mlx_xpm_file_to_image(g_var.mlx, "./img/drgn_ball.xpm",
-				&g_var.img.size.width, &g_var.img.size.height);
-	else if (g_var.map.data[row][col] == 'P')
-		g_var.img.img_ptr = mlx_xpm_file_to_image(g_var.mlx, g_var.img.spt_path,
-				&g_var.img.size.width, &g_var.img.size.height);
-	mlx_put_image_to_window(g_var.mlx, g_var.win, g_var.img.img_ptr, SPRITE_W * col,
-		SPRITE_H * row);
-	mlx_destroy_image(g_var.mlx, g_var.img.img_ptr);
-}
-
-int	draw_map(void)
+int	count_collec(void)
 {
 	int	row;
 	int	col;
 
 	row = 0;
-	while (row < g_var.map.size.height)
+	g_vr.game.count_collec = 0;
+	while (row < g_vr.map.size.height)
 	{
 		col = 0;
-		while (col < g_var.map.size.width)
+		while (col <= g_vr.map.size.width)
 		{
-			load_map(row, col);
+			if (g_vr.map.data[row][col] == 'C')
+				g_vr.game.count_collec++;
 			col++;
 		}
 		row++;
 	}
+	return (g_vr.game.count_collec);
+}
+
+void	print_steps(void)
+{
+	char	*str;
+	char	*convert;
+
+	convert = ft_itoa(g_vr.game.count_steps);
+	str = ft_strjoin("step ", convert);
+	mlx_string_put(g_vr.mlx, g_vr.win, (g_vr.img.pos.width * SPRITE_W) + 10,
+		(g_vr.img.pos.height * SPRITE_H) + 15, 0x833000, str);
+	free(str);
+	free(convert);
+}
+
+int	key_press(int key)
+{
+	int	steps;
+
+	steps = g_vr.game.count_steps;
+	if (key == KEY_ESC)
+		free_map("\e[33m\e[1mGame closed! (X)\e[0m\n");
+	else
+		moves(key);
+	if (steps != g_vr.game.count_steps)
+		ft_printf("⟹ 📍 Steps: %d\n", g_vr.game.count_steps);
+	draw_map();
+	print_steps();
 	return (0);
+}
+
+void	check_collect(void)
+{
+	if (count_collec() == 0)
+		free_map("\e[32m\e[5m\e[1m🎉 CONGRATULATIONS 🎉\n!!!! You WON !!!!\e[0m\n");
+	else
+		ft_printf("\e[35m\e[1m ⚠️  Please, collect all the balls!!!\e[0m\n");
 }
