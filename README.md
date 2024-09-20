@@ -21,4 +21,5 @@
 3. Use the provided `Makefile` to build the project by running:
    ```bash
    make
-./so_long [path_to_map_file]
+   ./so_long [path_to_map_file]
+
